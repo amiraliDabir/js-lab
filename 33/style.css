@@ -1,0 +1,17 @@
+.btn{
+    color: rgb(241, 241, 241);
+    background-color: rgb(88, 88, 217);
+    padding: 8px 16px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    outline: 0;
+    border: 0;
+    
+}
+.btn:first-child{
+    left: 10px;
+}
+.btn:last-child{
+    right: 10px;
+}
