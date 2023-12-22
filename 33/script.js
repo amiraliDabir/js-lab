@@ -5,10 +5,11 @@ let pre = document.getElementById("pre");
 
 let count = 0;
 
+
 body.style.backgroundImage="url(./images/"+bgs[count]+".jpg)";
 
 
-let obj=setInterval(changeBg,5000)
+ let obj=setInterval(changeBg,5000);
 function changeBg(){
     count++;
     if(count!=bgs.length){
@@ -38,6 +39,7 @@ function previous(){
 
 
 function nextBg(){
+   
     clearInterval(obj);
  
     count++;
@@ -48,11 +50,17 @@ function nextBg(){
         count=0;
         body.style.backgroundImage="url(./images/"+bgs[count]+".jpg)";
     }
-    setTimeout(changeBg,5000);
+    obj= setInterval(changeBg,5000);
+ 
+ 
+
+   
     
 }
 
+
 function preBg(){
+
     clearInterval(obj);
     
     count--;
@@ -64,8 +72,12 @@ function preBg(){
         count=(bgs.length)-1;
         body.style.backgroundImage="url(./images/"+bgs[count]+".jpg)";
     }
-    setTimeout(previous,5000);
+    obj= setInterval(changeBg,5000);
+    
+        
+   
 }
+
 
 
 
