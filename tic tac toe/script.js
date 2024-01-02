@@ -1,20 +1,20 @@
+//variables
 const d = document;
 let btn = d.querySelector("button");
 let cells = d.querySelectorAll(".cell");
+let box = d.querySelector(".showStatus");
+let gameContainer = d.querySelector(".gameContainer")
 let chars = [];
 let xArr = [];
 let oArr = [];
-
-
-let gameContainer = d.querySelector(".gameContainer")
 let winnerOptions = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]
 ]
 
 
 
-
-function random(randCh,randNum){
+// functions
+function random(randCh, randNum) {
     randNum = Math.floor(Math.random() * 2);
     if (randNum == 0) {
         randCh = "X"
@@ -24,17 +24,18 @@ function random(randCh,randNum){
     }
     return randCh;
 }
-function fillCell(ev,ch) {
- ch=random();
+
+function fillCell(ev, ch) {
+    ch = random();
     if (chars.length == 0) {
         ev.target.textContent = ch;
         if (ch == "X") {
             xArr.push(Number(ev.target.getAttribute("id")))
-            ev.target.style="color:blue"
+            ev.target.style = "color:blue"
         }
         else {
             oArr.push(Number(ev.target.getAttribute("id")))
-            ev.target.style="color:red"
+            ev.target.style = "color:red"
         }
         chars.push(ch);
     }
@@ -42,20 +43,18 @@ function fillCell(ev,ch) {
         ev.target.textContent = "O";
         chars.push("O");
         oArr.push(Number(ev.target.getAttribute("id")))
-        ev.target.style="color:red"
+        ev.target.style = "color:red"
     }
     else if (chars[chars.length - 1] == "O" && ev.target.textContent == "") {
         ev.target.textContent = "X";
         chars.push("X");
         xArr.push(Number(ev.target.getAttribute("id")))
-        ev.target.style="color:blue"
+        ev.target.style = "color:blue"
     }
 
     checkWinnerO();
     checkWinnerX();
 }
-
-
 
 
 function checkWinnerO() {
@@ -70,8 +69,9 @@ function checkWinnerO() {
             }
         }
         if (c == 3) {
-            alert("O winner");
             Stop();
+            box.style = "display:flex"
+            box.textContent = "O is winner"
         }
         else {
             c = 0;
@@ -88,28 +88,33 @@ function checkWinnerX() {
             }
         }
         if (c == 3) {
-            alert("X winner");
+            // alert("X winner");
             Stop();
+            box.style = "display:flex"
+            box.textContent = "X is winner"
         }
         else {
             c = 0;
         }
     }
 }
+
+
 function Stop() {
     gameContainer.classList.add("freeze");
 }
-function restart() {
 
+
+function restart() {
     oArr.length = 0;
     xArr.length = 0;
-    chars.length=0;
+    chars.length = 0;
     cells.forEach(item => item.textContent = "");
-    gameContainer.classList.toggle("freeze");
-
+    gameContainer.classList.remove("freeze");
+    box.style = "display:none"
 }
 
-
+//events
 cells.forEach((cell) => cell.addEventListener("click", fillCell));
 btn.addEventListener("click", restart);
 
