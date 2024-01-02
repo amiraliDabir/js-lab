@@ -4,43 +4,51 @@ let cells = d.querySelectorAll(".cell");
 let chars = [];
 let xArr = [];
 let oArr = [];
-let randNum = Math.floor(Math.random() * 2);
-let randCh;
+
+
 let gameContainer = d.querySelector(".gameContainer")
 let winnerOptions = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]
 ]
-if (randNum == 0) {
-    randCh = "X"
-}
-else {
-    randCh = "O";
-}
-function fillCell(ev) {
 
+
+
+
+function random(randCh,randNum){
+    randNum = Math.floor(Math.random() * 2);
+    if (randNum == 0) {
+        randCh = "X"
+    }
+    else {
+        randCh = "O";
+    }
+    return randCh;
+}
+function fillCell(ev,ch) {
+ ch=random();
     if (chars.length == 0) {
-        ev.target.textContent = randCh;
-        if (randCh == "X") {
+        ev.target.textContent = ch;
+        if (ch == "X") {
             xArr.push(Number(ev.target.getAttribute("id")))
-            ev.target.classList.add("xStyle")
+            ev.target.style="color:blue"
         }
         else {
             oArr.push(Number(ev.target.getAttribute("id")))
-            ev.target.classList.add("oStyle")
+            ev.target.style="color:red"
         }
-        chars.push(randCh);
+        chars.push(ch);
     }
     else if (chars[chars.length - 1] == "X" && ev.target.textContent == "") {
         ev.target.textContent = "O";
         chars.push("O");
         oArr.push(Number(ev.target.getAttribute("id")))
-        ev.target.classList.add("oStyle")
+        ev.target.style="color:red"
     }
     else if (chars[chars.length - 1] == "O" && ev.target.textContent == "") {
         ev.target.textContent = "X";
         chars.push("X");
         xArr.push(Number(ev.target.getAttribute("id")))
-        ev.target.classList.add("xStyle")
+        ev.target.style="color:blue"
     }
 
     checkWinnerO();
@@ -95,8 +103,9 @@ function restart() {
 
     oArr.length = 0;
     xArr.length = 0;
-    cells.forEach(item => item.innerHTML = "");
-    fillCell();
+    chars.length=0;
+    cells.forEach(item => item.textContent = "");
+    gameContainer.classList.toggle("freeze");
 
 }
 
