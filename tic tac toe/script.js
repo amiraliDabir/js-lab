@@ -52,13 +52,31 @@ function fillCell(ev, ch) {
         ev.target.style = "color:blue"
     }
 
-    checkWinnerO();
-    checkWinnerX();
+    checkWinner();
+
 }
 
 
-function checkWinnerO() {
+
+function checkWinner() {
     let c = 0;
+    for (let i = 0; i < winnerOptions.length; i++) {
+        for (let j = 0; j < winnerOptions[i].length; j++) {
+            for (let z = 0; z < xArr.length; z++) {
+                if (winnerOptions[i][j] == xArr[z]) c++;
+            }
+        }
+        if (c == 3) {
+            Stop();
+            box.style = "display:flex"
+            box.textContent = "X is winner"
+            c = 0;
+        }
+        else {
+            c = 0;
+
+        }
+    }
 
     for (let i = 0; i < winnerOptions.length; i++) {
         for (let j = 0; j < winnerOptions[i].length; j++) {
@@ -75,28 +93,10 @@ function checkWinnerO() {
         }
         else {
             c = 0;
-        }
-    }
-}
 
-function checkWinnerX() {
-    let c = 0
-    for (let i = 0; i < winnerOptions.length; i++) {
-        for (let j = 0; j < winnerOptions[i].length; j++) {
-            for (let z = 0; z < xArr.length; z++) {
-                if (winnerOptions[i][j] == xArr[z]) c++;
-            }
-        }
-        if (c == 3) {
-            // alert("X winner");
-            Stop();
-            box.style = "display:flex"
-            box.textContent = "X is winner"
-        }
-        else {
-            c = 0;
         }
     }
+
 }
 
 
@@ -114,14 +114,11 @@ function restart() {
     box.style = "display:none"
 }
 
+
+
+
+
+
 //events
 cells.forEach((cell) => cell.addEventListener("click", fillCell));
 btn.addEventListener("click", restart);
-
-
-
-
-
-
-
-
