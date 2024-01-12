@@ -7,6 +7,7 @@ let gameContainer = d.querySelector(".gameContainer")
 let chars = [];
 let xArr = [];
 let oArr = [];
+let hasWinner = false;
 let winnerOptions = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]
 ]
@@ -53,9 +54,19 @@ function fillCell(ev, ch) {
     }
 
     checkWinner();
+    checkDraw();
 
 }
 
+
+function checkDraw() {
+    debugger;
+    if (chars.length == 9 && !hasWinner) {
+        Stop();
+        box.style = "display:flex"
+        box.textContent = "Draw"
+    }
+}
 
 
 function checkWinner() {
@@ -70,6 +81,7 @@ function checkWinner() {
             Stop();
             box.style = "display:flex"
             box.textContent = "X is winner"
+            hasWinner = !hasWinner
             c = 0;
         }
         else {
@@ -90,6 +102,7 @@ function checkWinner() {
             Stop();
             box.style = "display:flex"
             box.textContent = "O is winner"
+            hasWinner = !hasWinner
         }
         else {
             c = 0;
