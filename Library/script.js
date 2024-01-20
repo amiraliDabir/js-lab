@@ -157,14 +157,16 @@ let pluses;
 let home = document.querySelector(".navbar__home");
 let filteredLanguage = document.querySelector(".filter__language");
 let filterdAuthors = document.querySelector(".filter__author");
-let filterdGeners = document.querySelector(".filter__genere");
+let filterdGenres = document.querySelector(".filter__genere");
 let inputItems;
+let ids = [];
+let resetBtn = document.getElementById("filter__reset")
 
 
 //functions
 
-function render() {
-    let temp = BOOKS.map(book => {
+function render(arr) {
+    let temp = arr.map(book => {
         return `
 <div class="container__card " id='${book.id}'>
     <div class="container__card__cover">
@@ -187,11 +189,11 @@ function render() {
 
 
 function addToFav() {
-
     let id = (this.parentElement.parentElement.getAttribute("id"))
     let found = BOOKS.find(book => book.id == id);
-    fav.push(found);
-
+    if (!fav.includes(found)) {
+        fav.push(found);
+    }
 
 }
 
@@ -207,14 +209,14 @@ function renderFavs() {
     let temp = fav.map(favBook => {
         return `
     <div class="favContainer__card">
-    <img src="./assets/image/${favBook.id}.jpg">
-    <div class="favContainer__card__detail">
-        <h2><span>عنوان:</span>${favBook.title}</h2>
-        <p><span>شاعر/نویسنده:</span>${favBook.author}</p>
-        <p><span>زبان:</span>${favBook.language}</p>
-    </div>
+        <img src="./assets/image/${favBook.id}.jpg">
+        <div class="favContainer__card__detail">
+            <h2><span>عنوان:</span>${favBook.title}</h2>
+            <p><span>شاعر/نویسنده:</span>${favBook.author}</p>
+            <p><span>زبان:</span>${favBook.language}</p>
+        </div>
     
-</div>
+    </div>
     `
     }).join("")
     container.innerHTML = temp;
@@ -224,7 +226,7 @@ function Home() {
     container.classList.remove("favContainer");
     container.classList.add("container");
     container.innerHTML = ""
-    render();
+    render(BOOKS);
 }
 function renderFilters() {
     let langs = BOOKS.map(item => {
@@ -290,9 +292,60 @@ function renderFilters() {
         <label for="${genre}">${genre}</label>
     </div>
         `}).join("");
-    filterdGeners.innerHTML += temp3;
+    filterdGenres.innerHTML += temp3;
+    inputItems = document.querySelectorAll("input");
+    for (const inputItem of inputItems) {
+        inputItem.addEventListener("change", filterBooks);
+    }
 
 }
+
+function filterBooks(e) {
+    let id;
+    if (e.target.checked) { id = e.target.id; }
+    let filteredLanguages = BOOKS.filter(book => {
+        return book.language == id;
+    })
+    let filteredAuthors = BOOKS.filter(book => {
+        return book.author == id;
+    })
+    let filteredGenres = BOOKS.filter(book => {
+        return book.genre == id;
+    })
+    for (const obj of filteredLanguages) {
+        ids.push(obj.id);
+    }
+    for (const obj of filteredAuthors) {
+        ids.push(obj.id);
+    }
+    for (const obj of filteredGenres) {
+        ids.push(obj.id);
+    }
+    ids.sort(function (a, b) { return a - b })
+    let unrepeatedIds = [];
+    for (let index = 0; index < ids.length; index++) {
+        if (ids[index] != ids[index + 1]) {
+            unrepeatedIds.push(ids[index])
+        }
+
+    }
+    let temp = BOOKS.filter(book => {
+        return unrepeatedIds.find(item => item == book.id);
+    });
+    render(temp)
+}
+function reset(arr1,arr2,arr3) {
+    arr1=[];
+    arr2=[];
+    arr3=[];
+    for (const item of inputItems) {
+        item.checked = false
+    }
+    render(BOOKS);
+    
+}
+
+
 
 
 //events
@@ -301,5 +354,5 @@ bucket.addEventListener("click", showFav);
 home.addEventListener("click", Home);
 
 //calling-functions
-render();
+render(BOOKS);
 renderFilters();
