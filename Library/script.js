@@ -161,6 +161,7 @@ let filterdGenres = document.querySelector(".filter__genere");
 let inputItems;
 let ids = [];
 let resetBtn = document.getElementById("filter__reset")
+let filteredBook;
 
 
 //functions
@@ -329,20 +330,18 @@ function filterBooks(e) {
         }
 
     }
-    let temp = BOOKS.filter(book => {
+    filteredBook = BOOKS.filter(book => {
         return unrepeatedIds.find(item => item == book.id);
     });
-    render(temp)
+    render(filteredBook);
 }
-function reset(arr1,arr2,arr3) {
-    arr1=[];
-    arr2=[];
-    arr3=[];
+function reset() {
+    ids = []
     for (const item of inputItems) {
         item.checked = false
     }
     render(BOOKS);
-    
+
 }
 
 

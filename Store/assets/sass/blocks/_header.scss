@@ -1,0 +1,26 @@
+.header{
+    font-family: cursive;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    @include dflex(row,center,center,nowrap);
+    width: 90%;
+    margin: 0 auto;
+    background-color: rgb(26, 101, 111);
+    padding: 16px 32px;
+    &__navbar{
+        @include dflex(row,space-between,center,nowrap); 
+        gap: 25px;
+        width: 30%;
+        margin: 0 15%;
+        a{
+            cursor: pointer;
+        }
+    }
+    &__icons{
+        width: 10%;
+        i{
+            margin-left: 20px;
+            cursor: pointer;
+        }
+    }
+}
